@@ -1,0 +1,31 @@
+{% extends 'game/base_game.html.twig' %}
+
+{% block body %}
+
+    <div class="tab-data bg-demi-transparent margtop6">
+        <article class="tab-pictureData">
+            <img class="tab-pictureDataList" src="{{ asset('picture/machine/')}}{{ machine.machine.picture }}"
+                 alt="{{ machine.machine.name }}" />
+        </article>
+
+        <article class="tab-textdata text-blue medium-size">
+            <h1> {{ machine.machine.name }}</h1>
+            <p>unités disponibles: <span class="text-gras">{{ machine.nombre}}</span></p>
+            <div>
+                <p>{{ machine.machine.description }}</p>
+                <p>Bois: <span class="text-gras">{{ machine.woodCost|number_format(0, '', ' ' ) }}</span></p>
+                <p>Pierre: <span class="text-gras">{{ machine.stoneCost|number_format(0, '', ' ' ) }}</span></p>
+                {% if machine.metalCost != 0 %}
+                    <p>Métal: <span class="text-gras">{{ machine.metalCost|number_format(0, '', ' ' ) }}</span></p>
+                {% else %}
+                {% endif %}
+                <p> Dégat: <span class="text-gras">{{ machine.damage|number_format(0, '', ' ' ) }}</span></p>
+                <p> Bouclier: <span class="text-gras">{{ machine.health|number_format(0, '', ' ' ) }}</span></p>
+                <p> Vitesse: <span class="text-gras">{{ machine.speed }}</span></p>
+                <p> Capacité de transport: <span class="text-gras">{{ machine.freightCapacity|number_format(0, '', ' ' ) }}</span></p>
+                <p> Temp de construction: <span class="text-gras">{{ machine.trainingTime }}</span></p>
+            </div>
+        </article>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <link href="{{ asset('css/bootstrap.min.css') }}" type="text/css" rel="stylesheet">
+    <link href="{{ asset('css/home.css') }}" type="text/css" rel="stylesheet">
+
+
+
+    <title>Age Of Territory</title>
+
+
+</head>
+<body>
+<div id="baniere"></div>
+
+<h1 class="titre">Adresse email oublié</h1>
+
+{% for message in app.flashes('danger') %}
+    <div class="alert alert-danger">
+        {{ message }}
+    </div>
+{% endfor %}
+<div class="bg-demi-transparent text-center">
+    <h2 class="sous-titre">PAGE EN CONSTRUCTION</h2>
+
+</div>
+
+
+
+</body>
+
+
+</html>

@@ -1,0 +1,41 @@
+{% extends 'game/base_game.html.twig' %}
+
+{% block body %}
+    {% set prochainLevel = building.levelBuilding + 1 %}
+
+
+    <div class="tab-data bg-demi-transparent margtop6">
+        <article class="tab-pictureData">
+            <img class="tab-pictureDataList" src="{{ asset('picture/building/')}}{{ building.building.picture }}"
+                 alt="{{ building.building.name }}" />
+        </article>
+
+        <article class="text-blue medium-size">
+            <h1 class="text-gras"> {{ building.building.name }} lvl {{ building.levelBuilding }}</h1>
+            <div>
+                <p> {{ building.building.description }}</p>
+                <p> Cout pour le level <span class="text-gras">{{ prochainLevel }}</span>:</p>
+                <p>Bois: <span class="text-gras">{{ building.woodCost|number_format(0, '', ' ' ) }}</span></p>
+                <p>Pierre: <span class="text-gras">{{ building.stoneCost|number_format(0, '', ' ' ) }}</span></p>
+                    {% if building.metalCost != 0 %}
+                        <p>Métal: <span class="text-gras">{{ building.metalCost|number_format(0, '', ' ' ) }}</span></p>
+                    {% else %}
+
+                    {% endif %}
+                <p>Production actuelle: <span class="text-gras">{{ building.buildingProd|number_format(0, '', ' ' ) }} /h</span></p>
+                <p> Temp de construction: <span class="text-gras">{{ building.buildTime  }}</span></p>
+                <p>
+                    {% if building.levelBuilding == 0 %}
+                        <a class="text-gras medium-size" href="{{ path('game_building_upgrade_start',{'id_building':building.id, 'isle_id':app.user.mainIsle.id}  ) }}">Construire</a>
+                    {% else %}
+                        <a class="text-gras medium-size" href="{{ path('game_building_upgrade_start',{'id_building':building.id, 'isle_id':app.user.mainIsle.id}  ) }}">Améliorer</a>
+                    {% endif %}
+                </p>
+            </div>
+
+
+
+        </article>
+    </div>
+
+{% endblock %}

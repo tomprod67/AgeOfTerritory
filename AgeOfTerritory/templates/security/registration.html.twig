@@ -1,0 +1,24 @@
+
+    <div id="container-inscription">
+
+    {{ form_start(form) }}
+
+    {{ form_row(form.email, {'label':'Adresse email', 'attr' :
+        {'class': 'registration-field', 'placeholder': 'Adresse e-mail'}} ) }}
+
+    {{ form_row(form.password, {'label':'Mot de passe', 'attr' :
+        {'class': 'registration-field', 'placeholder': 'Mot de passe'}} ) }}
+
+    {{ form_row(form.confirm_password, {'label':'Confirmation du Mot de passe', 'attr' :
+        {'class': 'registration-field', 'placeholder': 'Répétez votre mot de passe'}} ) }}
+
+    <div class="g-recaptcha" data-sitekey="6Ld2qLwUAAAAALF55yjWUriKt-T2y35irjlbFVWL"></div>
+
+    <input type="submit" value="Inscription">
+
+    {{ form_end(form) }}
+
+
+{% block javascripts %}
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+{% endblock %}

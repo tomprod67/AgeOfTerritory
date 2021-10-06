@@ -1,0 +1,75 @@
+{% extends '/game/base_game.html.twig' %}
+
+{% block body %}
+    <div class="ocean">
+        <h1 class="titre">Ocean</h1>
+
+        {% for message in app.flashes('errors_checkSpy') %}
+            <p class="alert alert-danger">{{ message }}</p>
+        {% endfor %}
+
+        <!-- Formulaire choix du choix des coordonnées -->
+
+        <div id="container-map" class="bg-demi-transparent">
+            <form class="form-map text-center" action="{{ path('game_map') }}" method="POST">
+
+                <label class="medium-size text-blue text-gras" for="longitude">Longitude : </label>
+                <input class="text-blue text-gras medium-size" type="number" max="9" min="0"  value="{{ longitude }}" name="longitude" id="longitude">
+                <label class="text-blue text-gras medium-size" for="latitude">Latitude : </label>
+                <input class="text-blue text-gras medium-size" type="number" max="300" min="0" value="{{ latitude }}" name="latitude" id="latitude">
+                <input class="text-blue text-gras medium-size" type="submit" value="Go">
+            </form>
+
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <tr>
+                        <th class="medium-size text-gras text-blue">Position</th>
+                        <th class="medium-size text-gras text-blue">Nom de l'ile</th>
+                        <th class="medium-size text-blue text-gras">Nom joueur</th>
+                        <th class="medium-size text-gras text-blue">action</th>
+
+                    </tr>
+                    {% for isle in isles %}
+                        <tr class="text-blue text-gras medium-size">
+                            <td>
+                                <p> {{ isle.position }} </p>
+                            </td>
+
+                            <td>
+                                <p> {{ isle.name }} </p>
+                            </td>
+
+                            <td>
+                                <p> {{ isle.user }} </p>
+                            </td>
+
+                            <td>
+                                {% if isle.user == app.user.username %}
+                            </td>
+                            {% elseif isle.name == "Emplacement Libre" %}
+                                </td>
+                            {% else %}
+                                <a class="text-blue text-gras" href="{#{{ path('game_spyOnMap', {'targetLongitude': isle.longitude, 'targetLatitude': isle.latitude, 'targetPosition': isle.position } ) }}#}#">Espionner</a>
+                                </td>
+                            {% endif %}
+                        </tr>
+
+                    {% endfor %}
+                </table>
+            </div>
+
+        </div>
+
+{#
+                <p class="text-center">Vous etes actuellement içi : <strong>{{ longitude }} : {{ latitude }}</strong></p>
+        #}
+
+
+        <!-- Toute les ile du jeu -->
+
+
+    </div>
+
+
+
+{% endblock %}

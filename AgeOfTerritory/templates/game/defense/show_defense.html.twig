@@ -1,0 +1,34 @@
+{% extends 'game/base_game.html.twig' %}
+
+{% block body %}
+
+
+    <div class="data">
+        <article class="pictureData">
+            <img class="pictureDataList" src="{{ asset('picture/defense/')}}{{ defense.defense.picture }}"
+                 alt="{{ defense.defense.name }}" />
+        </article>
+
+        <article class="text_data">
+
+            <h1> {{ defense.defense.name }} <span class="levelDescription">unitée(s) disponible(s): {{ defense.nombre}}</span></h1>
+            <p> Bois : {{ defense.woodCost|number_format(0, '', ' ' )   }}</p>
+            <p> Pierre : {{ defense.stoneCost|number_format(0, '', ' ' )   }}</p>
+            <p> Metal : {{ defense.metalCost|number_format(0, '', ' ' )   }}</p>
+            {% if defense.metalCost != 0 %}
+                <p>Métal : {{ defense.metalCost|number_format(0, '', ' ' )   }}</p>
+            {% else %}
+            {% endif %}
+            <p> Bouclier : {{ defense.health|number_format(0, '', ' ' )   }}</p>
+            <p> Temp de construction : {{ defense.buildTime }}
+
+{#
+                <a href="{{ path('game_upgrade_defense',{'id_defense':defense.id, 'isle_id':app.user.mainIsle.id}  ) }}">Construire</a>
+#}
+        </article>
+
+    </div>
+
+
+
+{% endblock %}

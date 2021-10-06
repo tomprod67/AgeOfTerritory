@@ -1,0 +1,103 @@
+    <td class="tab-data">
+        <div class="tab-pictureData">
+            <img class="tab-pictureDataList"
+                 src="{{ asset('picture/defense/')}}{{ defense.defense.picture }}"
+                 alt="{{ defense.defense.name }}" />
+        </div>
+        <div>
+            <div class="flexalign">
+                <h3>
+                    <a class="jslink sous-titre"
+                       href="{{ path('game_building_show',{'id':defense.id} ) }}">
+                        {{ defense.defense.name }}
+                    </a>
+                </h3>
+                {% if defense.nombre > 0 %}
+                    <span class="titre-level">{{ defense.nombre }} unité(s) disponible(s)</span>
+                {% else %}
+                {% endif %}
+            </div>
+            <div class="tab-container-description text-blue medium-size">
+                <div class="tab-description">
+                    <p>{{ defense.defense.description }}</p>
+                </div>
+                <div class="tab-stats">
+                    <p class="flexalign">
+                        <img class="ressource-img" src="{{ asset('picture/bouclier.png') }}"/>
+                        <output class="text-gras">{{ defense.health|number_format(0, '', ' ' )   }}</output>
+                    </p>
+                    <p class="flexalign">
+                        <img class="ressource-img" src="{{ asset('picture/epee.png') }}"/>
+                        <output class="text-gras">{{ defense.damage|number_format(0, '', ' ' )   }}</output>
+                    </p>
+                </div>
+                <div class="tab-price">
+
+                    <p class="flexalign">
+                        <img class="ressource-img" src="{{ asset('picture/ressource/wood.png') }}"/>
+                        {% if defense.woodCost < app.user.mainIsle.woodStock %}
+                            <output class="text-vert text-gras">{{ defense.woodCost|number_format(0, '', ' ' )   }}</output>
+                        {% else %}
+                            <output class="text-rouge text-gras">{{ defense.woodCost|number_format(0, '', ' ' )   }}</output>
+                        {% endif %}
+                    </p>
+
+                    <p class="flexalign">
+                        <img class="ressource-img" src="{{ asset('picture/ressource/stone.png') }}"/>
+                        {% if defense.stoneCost < app.user.mainIsle.stoneStock %}
+                            <output class="text-vert text-gras">{{ defense.stoneCost|number_format(0, '', ' ' )   }}</output>
+                        {% else %}
+                            <output class="text-rouge text-gras">{{ defense.stoneCost|number_format(0, '', ' ' )   }}</output>
+                        {% endif %}
+                    </p>
+
+                    {% if defense.metalCost != 0 %}
+                        <p class="flexalign">
+                            <img src="{{ asset('picture/ressource/metal.png') }}"/>
+                            {% if defense.metalCost < app.user.mainIsle.metalStock %}
+                                <output class="text-vert text-gras">{{ defense.metalCost|number_format(0, '', ' ' )   }}</output>
+                            {% else %}
+                                <output class="text-rouge text-gras">{{ defense.metalCost|number_format(0, '', ' ' )   }}</output>
+                            {% endif %}
+                        </p>
+                    {% endif %}
+                </div>
+                <div class="tab-time">
+                    <p>
+                        {% if defense.buildTime >= 86400 %}
+                            Temp de construction : {{ defense.buildTime|date("d\\j H\\h i\\m s\\s")  }}
+
+                        {% elseif defense.buildTime >= 3600 %}
+                            Temp de construction : {{ defense.buildTime|date("H\\h i\\m s\\s") }}
+
+                        {% elseif defense.buildTime >= 60 %}
+                            Temp de construction : {{ defense.buildTime|date("i\\m s\\s") }}
+
+                        {% else %}
+                            Temp de construction : {{ defense.buildTime|date("s\\s") }}
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </td>
+
+    <td class="td-action">
+        {%  if defense.endDate is not null %}
+            <p id="countDownDefense"
+               data-count-down-date-defense="{{ defense.endDate }}"
+               data-redirect-completed="{{ path('game_defense_build_end', {id_defense : defense.id}) }}"
+               data-redirect-cancelled="{{ path('game_defense_cancel', {id_defense : defense.id}) }}"
+               data-name-defense="{{ defense.defense.name }}"
+               data-nb-temp="{{ defense.nbTemp }}">
+            </p>
+        {% endif %}
+        <form action="{{ path('game_defense_build_start', {id_defense:defense.id} ) }}" method="POST">
+
+            <label class="text-blue text-gras medium-size" for="number">Nombre</label><br/>
+            <input type="number" min="1" name="number"><br/><br/>
+            <input class="text-blue medium-size text-gras" type="submit" value="Construire">
+
+        </form>
+    </td>

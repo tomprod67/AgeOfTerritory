@@ -1,0 +1,366 @@
+.decoration-none{text-decoration: none;}
+.flex-around{display: flex; justify-content: space-around;}
+.margtop6{margin-top: 6em;}
+.width90{width: 90%;}
+.bg-wood{background-color: #B3793B;}
+.text-gras{font-weight: bolder;}
+.text-blue{color: #6B7D7D;}
+.text-demi-center{margin-left: 25%;}
+.padding-bottom{padding-bottom: 1em;}
+.medium-size{font-size: 1.1em;}
+.text-soulign{text-decoration: underline;}
+.text-vert{color: #5cb85c;}
+.text-rouge{color: #d9534f;}
+.big-size{font-size: 1.3em;}
+@font-face {
+    font-family: "Via Appia";
+    src: url("../police/Via_Appia.ttf");
+
+}
+.appia-font{
+    font-family: "Via Appia";
+}
+td.td-action {
+    vertical-align: middle;
+    text-align: center;
+}
+
+
+.flexalign{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.flexalign output{
+    margin-left: 0.5em;
+    font-weight: bold;
+    font-size: 1.1em;
+}
+.titre{
+    font-family: "Via Appia";
+    font-size: 3.5em;
+    text-shadow: 0 0 1px goldenrod;
+    font-weight: lighter;
+    color: #6B7D7D;
+    border-top: 1px;
+    border-left: 1px;
+    border-right: 1px;
+    padding-top: 0.2em;
+    text-align: center;
+    width: 60%;
+    margin: 0.5em auto 0 auto;
+    background-color: rgba(1, 1, 1, 0.8);
+    border-radius: 0.2em 0.2em 0 0;
+}
+.sous-titre{
+    font-family: "Via Appia";
+    font-size: 2em;
+    color: #6B7D7D;
+}
+.titre-level{
+    margin-left: 1em;
+    color: #6B7D7D;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.bg-demi-transparent{
+    background-color: rgba(1, 1, 1, 0.8);
+
+}
+.bg-gris-transparent{
+    background-color: rgba(60, 62, 63, 0.8);
+    border-style: solid;
+    border-width: 1px;
+    border-color: rgba(0, 0, 0, 0.4);
+
+}
+.sticky-ressource{
+    position: sticky;
+    top: 6em;
+}
+
+.sticky-nav{
+    position: fixed;
+    top: 0;
+}
+
+*{
+    box-sizing: border-box;
+}
+
+html{
+    font-size: 16px;
+}
+
+body{
+    width: 100%;
+}
+
+#global-wrapper{
+    width: 100%;
+    margin: auto;
+    background: url("../picture/fonddjo.jpg") no-repeat center center fixed;
+    background-size: cover;
+}
+
+header{
+    width: 100%;
+}
+
+#baniere{
+    width: 100%;
+    background:url("../picture/logoGrand.png") no-repeat;
+    background-size: auto 100%;
+    background-position: center;
+    height: 12em;
+}
+#deco-player{
+    margin-top: 1em;
+}
+
+#ressource-font-awesome-container{
+    margin-top: 2em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 10%;
+}
+
+#container-font-awesome{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.font-awesome{
+    align-items: center;
+    font-size: 2em;
+    color: #0B2E36;
+    margin: 0.2em;
+}
+#font-awesome-profil-setting{
+    margin-top: 0.3em;
+}
+
+#pannelRessource{
+    display: flex;
+    flex-direction: column;
+    border-radius: 1em;
+    justify-content: space-around;
+    width: 100%;
+    margin-top: 1em;
+}
+
+#contenu{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: flex-start;
+}
+
+nav{
+    width: 100%;
+    background-color: rgba(1, 1, 1, 0.8);
+}
+
+#link-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 0.6em;
+    width: 100%;
+    height: 100%;
+}
+
+main{
+    width: 80%;
+    float: right;
+}
+
+footer{
+    margin: 4em auto 0 auto;
+    width: 90%;
+    background-color: #040404;
+    color: whitesmoke;
+    padding: 0.5em;
+    font-weight: bold;
+}
+
+
+
+
+
+/* General view */
+
+#container-main-isle{
+    width: 80%;
+    flex-direction: row-reverse;
+    border-radius: 1em;
+    margin: auto;
+    padding: 4em;
+}
+#container-main-isle figure{
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+#image-main-isle{
+    width: 40%;
+    height: auto;
+    border-radius: 8em;
+    margin: 2em auto 2em auto;
+}
+
+#container-main-isle figcaption{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+#container-main-isle figcaption>div{
+    margin: auto;
+}
+
+/* Page Building */
+
+
+
+.tab-data{
+    display: flex;
+    align-items: center;
+    padding: 1em;
+}
+
+
+.tab-pictureData{
+    justify-content: center;
+    align-items: center;
+}
+.tab-pictureDataList{
+    width: 18em;
+    justify-content: center;
+    margin-right: 3em;
+}
+
+/* MAP */
+
+.form-map{
+    margin-bottom: 1em;
+    padding-top: 2em;
+}
+
+/* Message */
+
+.message-inscription{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+}
+
+.container-message{
+    width: 70%;
+    margin: 2em auto 0 auto;
+    padding: 2em;
+}
+.container-message-awesome{
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+}
+
+
+/* Media Query */
+@media (min-width: 768px) and (max-width: 1388px)
+{
+
+}
+
+@media (max-width: 767px ) {
+    body{
+        width: 100%
+    }
+
+    #global-wrapper{
+        width: 100%;
+    }
+    main{
+        width: 100%;
+    }
+    #container-main-isle{
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+    #container-main-isle>figcaption{
+        width: 100%;
+    }
+    .title-main-isle{
+        margin: 0 auto auto;
+    }
+
+    #contenu{
+        display: flex;
+        flex-direction: column-reverse;
+    }
+    #pannelRessource{
+        display: flex;
+        flex-direction: row;
+    }
+
+    #ressource-font-awesome-container{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        margin: 0 0 0.5em 0;
+    }
+
+    #container-font-awesome{
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;    }
+
+    #container-font-awesome2>*{
+        margin: 0 0.3em 0 0.3em;
+    }
+
+    .tab-data{
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+    }
+
+    #baniere{
+        background-image: url("../picture/logoGrand.png");
+        background-position: center center;
+        background-size: contain;
+        background-repeat: no-repeat;
+    }
+
+    #container-main-isle {
+        flex-direction: column-reverse;
+    }
+    #image-main-isle{
+        width: 100%;
+        text-align: center;
+    }
+    .titre{
+        width: 100%;
+
+    }
+}
+/*Building*/
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,40 @@
+{% extends 'game/base_game.html.twig' %}
+
+{% block body %}
+    {% set prochainLevel = technology.levelTechnology + 1 %}
+
+
+    <div class="tab-data bg-demi-transparent margtop6">
+        <article class="tab-pictureData">
+            <img class="tab-pictureDataList" src="{{ asset('picture/technology/')}}{{ technology.technology.picture }}"
+                 alt="{{ technology.technology.name }}" />
+        </article>
+
+        <article class="text-blue medium-size">
+            <h1 class="text-gras"> {{ technology.technology.name }} lvl {{ technology.levelTechnology }}</span></h1>
+            <p>{{ technology.technology.description }}</p>
+            <p>Cout pour le level {{ prochainLevel }}:</p>
+            <p>Bois:  <span class="text-gras">{{ technology.woodCost|number_format(0, '', ' ' ) }}</span></p>
+            <p>Pierre:  <span class="text-gras">{{ technology.stoneCost|number_format(0, '', ' ' ) }}</span></p>
+            <p>
+                {% if technology.searchTime >= 86400 %}
+                    Temp de recherche: <span class="text-gras">{{ technology.searchTime|date("d\\j H\\h i\\m s\\s") }}</span>
+
+                {% elseif technology.searchTime >= 3600 %}
+                    Temp de recherche: <span class="text-gras">{{ technology.searchTime|date("H\\h i\\m s\\s") }}</span>
+
+                {% elseif technology.searchTime >= 60 %}
+                    Temp de recherche: <span class="text-gras">{{ technology.searchTime|date("i\\m s\\s") }}</span>
+
+                {% else %}
+                    Temp de recherche: <span class="text-gras">{{ technology.searchTime|date("s\\s") }}</span>
+
+                {% endif %}
+            </p>
+            <p>
+                <a class="text-gras medium-size" href="{{ path('game_technology_upgrade_start',{'id_technology':technology.id, 'isle_id':app.user.mainIsle.id}  ) }}">Rechercher</a>
+            </p>
+        </article>
+    </div>
+
+{% endblock %}

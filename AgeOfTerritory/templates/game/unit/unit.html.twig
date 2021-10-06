@@ -1,0 +1,58 @@
+{% extends '/game/base_game.html.twig' %}
+
+{% block body %}
+    {% for message in app.flashes('error') %}
+        <p class="alert alert-dismissible alert-danger">{{ message }}</p>
+    {% endfor %}
+    <div id="unitInBuild">
+
+        <h1 class="titre">unité(s) en construction</h1>
+        <div class="table-responsive bg-demi-transparent">
+            <table class="table">
+                <tr>
+                    <th>unit </th>
+                    <th>Nombre</th>
+                    <th>Temp restant</th>
+                    <th>Action</th>
+                </tr>
+                {% for unit in units %}
+                    {% if unit.endDate is not null %}
+                        <tr>
+                            <td>{{ unit.unit.name }}</td>
+                            <td>{{ unit.nbTemp }}</td>
+                            <td><p id="time"></p></td>
+                            <td><p id="actionInTrain"></p></td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </table>
+        </div>
+
+
+    </div>
+
+    <h1 class="titre">units</h1>
+    <div class="table-responsive bg-demi-transparent table-responsive{-sm|-md|-lg|-xl}">
+
+        <table class="table table-hover width90 m-auto">
+            <tr>
+                <th class="text-blue medium-size">Défense</th>
+                <th class="text-blue medium-size text-center">Action</th>
+            </tr>
+            {% for unit in units %}
+                <tr>
+                    {% include('game/unit/oneUnit.html.twig') %}
+                </tr>
+
+            {% endfor %}
+        </table>
+    </div>
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/countDown_unit.js') }}"> </script>
+{% endblock %}

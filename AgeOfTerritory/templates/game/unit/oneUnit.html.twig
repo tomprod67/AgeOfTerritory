@@ -1,0 +1,103 @@
+<td class="tab-data">
+    <div class="tab-pictureData">
+        <img class="tab-pictureDataList"
+             src="{{ asset('picture/unit/')}}{{ unit.unit.picture }}"
+             alt="{{ unit.unit.name }}" />
+    </div>
+    <div>
+        <div class="flexalign">
+            <h3>
+                <a class="jslink sous-titre"
+                   href="{{ path('game_building_show',{'id':unit.id} ) }}">
+                    {{ unit.unit.name }}
+                </a>
+            </h3>
+            {% if unit.nombre > 0 %}
+                <span class="titre-level">{{ unit.nombre }} unité(s) disponible(s)</span>
+            {% else %}
+            {% endif %}
+        </div>
+        <div class="tab-container-description text-blue medium-size">
+            <div class="tab-description">
+                <p>{{ unit.unit.description|nl2br }}</p>
+            </div>
+            <div class="tab-stats">
+                <p class="flexalign">
+                    <img class="ressource-img" src="{{ asset('picture/bouclier.png') }}"/>
+                    <output class="text-gras">{{ unit.health|number_format(0, '', ' ' )   }}</output>
+                </p>
+                <p class="flexalign">
+                    <img class="ressource-img" src="{{ asset('picture/epee.png') }}"/>
+                    <output class="text-gras">{{ unit.damage|number_format(0, '', ' ' )   }}</output>
+                </p>
+            </div>
+            <div class="tab-price">
+
+                <p class="flexalign">
+                    <img class="ressource-img" src="{{ asset('picture/ressource/wood.png') }}"/>
+                    {% if unit.woodCost < app.user.mainIsle.woodStock %}
+                        <output class="text-vert text-gras">{{ unit.woodCost|number_format(0, '', ' ' )   }}</output>
+                    {% else %}
+                        <output class="text-rouge text-gras">{{ unit.woodCost|number_format(0, '', ' ' )   }}</output>
+                    {% endif %}
+                </p>
+
+                <p class="flexalign">
+                    <img class="ressource-img" src="{{ asset('picture/ressource/stone.png') }}"/>
+                    {% if unit.stoneCost < app.user.mainIsle.stoneStock %}
+                        <output class="text-vert text-gras">{{ unit.stoneCost|number_format(0, '', ' ' )   }}</output>
+                    {% else %}
+                        <output class="text-rouge text-gras">{{ unit.stoneCost|number_format(0, '', ' ' )   }}</output>
+                    {% endif %}
+                </p>
+
+                {% if unit.metalCost != 0 %}
+                    <p class="flexalign">
+                        <img src="{{ asset('picture/ressource/metal.png') }}"/>
+                        {% if unit.metalCost < app.user.mainIsle.metalStock %}
+                            <output class="text-vert text-gras">{{ unit.metalCost|number_format(0, '', ' ' )   }}</output>
+                        {% else %}
+                            <output class="text-rouge text-gras">{{ unit.metalCost|number_format(0, '', ' ' )   }}</output>
+                        {% endif %}
+                    </p>
+                {% endif %}
+            </div>
+            <div class="tab-time">
+                <p>
+                    {% if unit.trainingTime >= 86400 %}
+                        Temp de construction : {{ unit.trainingTime|date("d\\j H\\h i\\m s\\s")  }}
+
+                    {% elseif unit.trainingTime >= 3600 %}
+                        Temp de construction : {{ unit.trainingTime|date("H\\h i\\m s\\s") }}
+
+                    {% elseif unit.trainingTime >= 60 %}
+                        Temp de construction : {{ unit.trainingTime|date("i\\m s\\s") }}
+
+                    {% else %}
+                        Temp de construction : {{ unit.trainingTime|date("s\\s") }}
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+
+    </div>
+</td>
+
+<td class="td-action">
+    {%  if unit.endDate is not null %}
+        <p id="countDownUnit"
+           data-count-down-date-unit="{{ unit.endDate }}"
+           data-redirect-completed="{{ path('game_unit_training_end', {id_unit : unit.id}) }}"
+           data-redirect-cancelled="{{ path('game_unit_cancel', {id_unit : unit.id}) }}"
+           data-name-unit="{{ unit.unit.name }}"
+           data-nb-temp="{{ unit.nbTemp }}">
+        </p>
+    {% endif %}
+    <form action="{{ path('game_unit_training_start', {id_unit:unit.id} ) }}" method="POST">
+
+        <label class="text-blue text-gras medium-size" for="number">Nombre</label><br/>
+        <input type="number" min="1" name="number"><br/><br/>
+        <input class="text-blue medium-size text-gras" type="submit" value="Construire">
+
+    </form>
+</td>

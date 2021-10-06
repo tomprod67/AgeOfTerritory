@@ -1,0 +1,233 @@
+{% extends("game/base_game.html.twig") %}
+{% block body %}
+    <h1 class="titre">Envoi de troupes</h1>
+
+    <div id="flash-message">
+    {% for message in app.flashes('errorCheckMission') %}
+        <p class="alert alert-danger alert-dismissible">{{ message }}</p>
+    {% endfor %}
+    </div>
+
+    <section class="sectionMission bg-demi-transparent">
+
+        <form action="{{ path('game_check_mission') }}" method="post">
+
+            <section id="troupe-mission">
+                <h2 class="sous-titre">Troupe Sélectionnée</h2>
+                {% if units is defined %}
+                    {% for unit in units %}
+                        {% if unit['nbUnit'] != "" and unit['nbUnit'] is not null %}
+                            <ul>
+                                <li>{{ unit['nbUnit'] }} x {{ unit['unit'].unit.name }}</li>
+                            </ul>
+                        {% else %}
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                {% endif %}
+                {% if machines is defined %}
+                    {% for machine in machines %}
+                        {% if machine['nbMachine'] != "" and machine['nbMachine'] is not null %}
+                            <ul>
+                                <li>{{ machine['nbMachine'] }} x {{ machine['machine'].machine.name }}</li>
+                            </ul>
+                        {% else %}
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                {% endif %}
+            </section>
+
+            <section id="target-coordinate-mission">
+                    <div>
+                        <h2 class="sous-titre">Coordonnées</h2>
+                        <div>
+                            <label for="longitude">Longitude : </label>
+                            <input type="number" max="9" min="0" name="longitude" id="longitude">
+                        </div>
+
+                        <div>
+                            <label for="latitude">Latitude : </label>
+                            <input type="number" max="300" min="0" name="latitude" id="latitude">
+                        </div>
+
+                        <div>
+                            <label for="position">Position : </label>
+                            <input type="number" max="10" min="1" name="position" id="position">
+                        </div>
+                    </div>
+                    <div>
+                        <h2 class="sous-titre">Vitesse</h2>
+                        <div id="speedMission">
+                            <p><span id="timeSpeedMission"></span> (heures:minutes:secondes)</p>
+                        </div>
+                        <div>
+                            <label for="speedMission">Vitesse</label>
+                            <select id="speedMission" name="speedMission" size="1">
+                                <option value="100" selected>100%</option>
+                                <option value="90">90%</option>
+                                <option value="80">80%</option>
+                                <option value="70">70%</option>
+                                <option value="60">60%</option>
+                                <option value="50">50%</option>
+                                <option value="40">40%</option>
+                                <option value="30">30%</option>
+                                <option value="20">20%</option>
+                                <option value="10">10%</option>
+                            </select>
+                        </div>
+
+
+                    </div>
+
+            </section>
+
+            <section id="freight-ressource-mission">
+                <h2 class="sous-titre">Quantité de ressources à transporter</h2>
+                <p>Max : {{ app.session.get('maxFreight') }}</p>
+                <div>
+                    <label for="woodFreight">Bois</label>
+                    <input type="number" name="woodFreight" id="woodFreight" min="0" max="{{ app.user.mainIsle.woodStock }}">
+                </div>
+
+                <div>
+                    <label for="stoneFreight">Pierre</label>
+                    <input type="number" name="stoneFreight" id="stoneFreight" min="0" max="{{ app.user.mainIsle.stoneStock }}">
+                </div>
+
+                <div>
+                    <label for="metalFreight">Métal</label>
+                    <input type="number" name="metalFreight" id="metalFreight" min="0" max="{{ app.user.mainIsle.metalStock }}">
+                </div>
+
+                <div>
+                    <label for="oilFreight">Carburant</label>
+                    <input type="number" name="oilFreight" id="oilFreight" min="0" max="{{ app.user.mainIsle.oilStock }}">
+                </div>
+            </section>
+
+            <section>
+                <h3 class="sous-titre">Mission</h3>
+                    {% for choice in app.session.get('choices') %}
+                            <input type="radio" id="choiceMission" name="choiceMission" value="{{ choice }}">
+                            <label for="choiceMission">{{ choice }}</label>
+                    {% endfor %}
+                <input type="hidden" name="speedMission" id="speedMissionInSec" value="{{ app.session.get('speedMissionInSec') }}">
+                <button type="submit" id="submit">Envoyer</button>
+            </section>
+        </form>
+    </section>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function() {
+
+            function secondsTimeSpanToHMS(s) {
+                var h = Math.floor(s / 3600);
+                s -= h * 3600;
+                var m = Math.floor(s / 60);
+                s -= m * 60;
+                return h + ":" + (m < 10 ? '0' + m : m) + ":" + (s < 10 ? '0' + s : s);
+            }
+            var timeSec = $("#speedMissionInSec").val();
+            var timeInSecTemp = timeSec;
+            var time = secondsTimeSpanToHMS(timeInSecTemp);
+            $("#timeSpeedMission").html(time);
+
+            $("select#speedMission").change(function () {
+                var pourcentage = Number($(this).children("option:selected").val());
+
+                if (pourcentage == 100) {
+                    timeInSecTemp = timeSec;
+                    time = secondsTimeSpanToHMS(timeInSecTemp);
+                    $("#timeSpeedMission").html(time);
+                    $('#speedMissionInSec').val(timeInSecTemp);
+                    console.log(timeInSecTemp);
+
+                }
+                else if (pourcentage == 90) {
+                    timeInSecTemp = timeSec * 2;
+                    time = secondsTimeSpanToHMS(timeInSecTemp);
+                    $("#timeSpeedMission").html(time);
+                    $('#speedMissionInSec').val(timeInSecTemp);
+                    console.log(timeInSecTemp);
+
+                }
+                else if (pourcentage == 80) {
+                    timeInSecTemp = timeSec * 3;
+                    time = secondsTimeSpanToHMS(timeInSecTemp);
+                    $("#timeSpeedMission").html(time);
+                    $('#speedMissionInSec').val(timeInSecTemp);
+                    console.log(timeInSecTemp);
+
+
+                }
+                else if (pourcentage == 70) {
+                    timeInSecTemp = timeSec * 6;
+                    time = secondsTimeSpanToHMS(timeInSecTemp);
+                    $("#timeSpeedMission").html(time);
+                    $('#speedMissionInSec').val(timeInSecTemp);
+                    console.log(timeInSecTemp);
+
+
+                }
+                else if (pourcentage == 60) {
+                    timeInSecTemp = timeSec * 10;
+                    time = secondsTimeSpanToHMS(timeInSecTemp);
+                    $("#timeSpeedMission").html(time);
+                    $('#speedMissionInSec').val(timeInSecTemp);
+                    console.log(timeInSecTemp);
+
+
+                }
+                else if (pourcentage == 50) {
+                    timeInSecTemp = timeSec * 14;
+                    time = secondsTimeSpanToHMS(timeInSecTemp);
+                    $("#timeSpeedMission").html(time);
+                    $('#speedMissionInSec').val(timeInSecTemp);
+                    console.log(timeInSecTemp);
+
+
+                }
+                else if (pourcentage == 40) {
+                    timeInSecTemp = timeSec * 18;
+                    time = secondsTimeSpanToHMS(timeInSecTemp);
+                    $("#timeSpeedMission").html(time);
+                    $('#speedMissionInSec').val(timeInSecTemp);
+                    console.log(timeInSecTemp);
+
+
+                }
+                else if (pourcentage == 30) {
+                    timeInSecTemp = timeSec * 23;
+                    time = secondsTimeSpanToHMS(timeInSecTemp);
+                    $("#timeSpeedMission").html(time);
+                    $('#speedMissionInSec').val(timeInSecTemp);
+                    console.log(timeInSecTemp);
+
+
+                }
+                else if (pourcentage == 20) {
+                    timeInSecTemp = timeSec * 28;
+                    time = secondsTimeSpanToHMS(timeInSecTemp);
+                    $("#timeSpeedMission").html(time);
+                    $('#speedMissionInSec').val(timeInSecTemp);
+                    console.log(timeInSecTemp);
+
+
+                }
+                else if (pourcentage == 10) {
+                    timeInSecTemp = timeSec * 35;
+                    time = secondsTimeSpanToHMS(timeInSecTemp);
+                    $("#timeSpeedMission").html(time);
+                    $('#speedMissionInSec').val(timeInSecTemp);
+                    console.log(timeInSecTemp);
+                }
+            });
+        });
+    </script>
+{% endblock %}
+
+
+

@@ -1,0 +1,164 @@
+{% extends 'game/base_game.html.twig' %}
+
+{% block body %}
+    <div class="container-message bg-demi-transparent">
+
+        {% if message.title == "Rapport d'espionnage" %}
+
+            <div class="rapportEspionnage">
+                <h1>{{ message.title }}</h1>
+
+                <p> Rapport d'espionnage de '{{ message.cible.mainIsle.name }}'
+                    <a href="{{ path('game_map',
+                        {'longitude':message.cible.mainIsle.longitude,
+                            'latitude':message.cible.mainIsle.latitude} ) }}">
+
+                        ({{ message.cible.mainIsle.longitude }}:
+                        {{ message.cible.mainIsle.latitude }}:
+                        {{ message.cible.mainIsle.position }})
+                    </a>
+                </p>
+
+                <p>Cette île appartient à {{ message.cible.username }}</p>
+
+                <h2> Batiments </h2>
+
+                <table class="table table-hover">
+
+                    {% set buildings = message.cible.mainIsle.buildBuildings %}
+
+                    <tr>
+                        <th> Bâtiment </th>
+                        <th> level  </th>
+                    </tr>
+
+                    {%  for building in buildings %}
+                        <tr>
+                            <td> {{ building.building.name }} </td>
+                            <td> {{ building.levelBuilding }} </td>
+                        </tr>
+                    {% endfor %}
+
+                </table>
+                <h2> Technologies </h2>
+
+                <table class="table table-hover">
+
+                    {% set technologies = message.cible.mainIsle.searchTechnologies %}
+
+                    <tr>
+                        <th> Technologie </th>
+                        <th> level  </th>
+                    </tr>
+
+                    {%  for technology in technologies %}
+                        <tr>
+                            <td> {{ technology.technology.name }} </td>
+                            <td> {{ technology.levelTechnology }} </td>
+                        </tr>
+                    {% endfor %}
+
+                </table>
+
+                <h2> Machines </h2>
+
+                <table class="table table-hover">
+
+                    {% set machines = message.cible.mainIsle.trainingMachines %}
+
+                    <tr>
+                        <th> Machine </th>
+                        <th> Nombre  </th>
+                    </tr>
+
+                    {%  for machine in machines %}
+                        <tr>
+                            <td> {{ machine.machine.name }} </td>
+                            <td> {{ machine.nombre }} </td>
+                        </tr>
+                    {% endfor %}
+
+                </table>
+                <h2> Unitées </h2>
+
+                <table class="table table-hover">
+
+                    {% set units = message.cible.mainIsle.trainingUnits %}
+
+                    <tr>
+                        <th> Unitée </th>
+                        <th> Nombre  </th>
+                    </tr>
+
+                    {%  for unit in units %}
+                        <tr>
+                            <td> {{ unit.unit.name }} </td>
+                            <td> {{ unit.nombre }} </td>
+                        </tr>
+                    {% endfor %}
+
+                </table>
+
+                <h2> Défenses </h2>
+
+                <table class="table table-hover">
+
+                    {% set defenses = message.cible.mainIsle.buildDefenses %}
+
+                    <tr>
+                        <th> Défense </th>
+                        <th> Nombre  </th>
+                    </tr>
+
+                    {%  for defense in defenses %}
+                        <tr>
+                            <td> {{ defense.defense.name }} </td>
+                            <td> {{ defense.nombre }} </td>
+                        </tr>
+                    {% endfor %}
+
+                </table>
+
+            </div>
+        {% endif %}
+
+        {% if message.title == "Alert: Espionnage de votre île !" %}
+
+            <div class="alertEspionnage">
+                <h1>Espionnage</h1>
+                <p>Les systemes de défense de votre île nous ont signaler une intrusion sur votre territoire.</p>
+                <p>Nous avons repéré {{ message.author.nbPreferenceSpy }}
+                    {% if message.author.preferenceUnitSpy == null %}
+                        {{ message.author.preferenceMachineSpy.name }}(s)
+                    {% elseif message.author.preferenceMachineSpy == null %}
+                        {{ message.author.preferenceUnitSpy.name }}(s)
+                    {% endif %}
+                </p>
+                <p>On dirait qu'il ont espionner votre territoire.</p>
+                <p>Les ennemis venaient de
+                    <a href="{{ path('game_getCoordinate',
+                        {'longitude':message.author.mainIsle.longitude,
+                            'latitude':message.author.mainIsle.latitude} ) }}">
+
+                        {{ message.author.mainIsle.longitude }}:
+                        {{ message.author.mainIsle.latitude }}:
+                        {{ message.author.mainIsle.position }}
+                    </a>
+                </p>
+            </div>
+
+        {% endif %}
+
+        {% if message.title == "Merci pour votre inscription !" %}
+            <div class="message-inscription">
+                <h1>Merci pour votre inscription !</h1>
+                <p>L'équipe d'Age Of Territory vous souhaite la bienvenue sur notre serveur.</p>
+                <p>Si vous avez la moindre question ou si vous voyer un bug, nous vous remercions d'avance de nous contactez pour régler le problème.</p>
+                <p>Nous vous souhaitons Bon jeu !</p>
+            </div>
+        {% endif %}
+
+    </div>
+
+
+{% endblock %}

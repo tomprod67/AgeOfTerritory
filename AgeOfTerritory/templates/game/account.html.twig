@@ -1,0 +1,61 @@
+{% extends '/game/base_game.html.twig' %}
+
+{% block body %}
+    <h1 class="titre">Account </h1>
+    {% for message in app.flashes('error_check_spy') %}
+        {{ message }}
+    {% endfor %}
+    <div class="bg-demi-transparent">
+        <div class="text-center">
+            <h2 class="sous-titre optionCompte">Option de votre compte</h2>
+
+            <p>Votre pseudo : {{ user.username }} </p>
+            <form action="" method="post">
+                <label for="newUsername">Nouveau pseudo :</label>
+                <input type="text" name="newUsername">
+                <input type="submit">
+            </form>
+
+            <p>Votre adresse e-mail : {{ user.email }} </p>
+            <p><button href="#">Changer</button></p>
+        </div>
+
+        <div class="text-center optionGame">
+
+            <h1 class="sous-titre">Préférences</h1>
+            {% for message in app.flashes('errors_PreferenceSpy') %}
+                <p>{{ message }}</p>
+            {% endfor %}
+            {% for message in app.flashes('succes_PreferenceSpy') %}
+                <p>{{ message }}</p>
+            {% endfor %}
+            <p>Quel troupe souhaitez vous envoyer par defaut lorsque vous cliquer sur le bouton espionner dans l'Océan ?</p>
+            <form action="{{ path('checkPreferenceSpy') }}" method="post">
+                <label for="archeologue">Archéologue</label>
+                <input type="radio" id="archeologue" value="archeologue" name="troupeEspionnage"><br/>
+
+                <label for="DroneEspion">Drone Espion</label>
+                <input type="radio" id="DroneEspion" value="DroneEspion" name="troupeEspionnage"><br/>
+
+                <label for="nbTroupeEspionnage">Nombre</label>
+                <input type="number" id="nbTroupeEspionnage" name="nbTroupeEspionnage"><br/>
+
+                <input type="submit" value="Confirmer">
+            </form>
+
+        </div>
+
+        <div class="text-center">
+            <p>Pour changer votre mot de passe, veuillez suivre ce
+                <a href="{{ path('security_changePassword')}}">lien</a>
+            </p>
+        </div>
+
+    </div>
+
+
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

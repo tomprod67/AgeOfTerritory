@@ -1,0 +1,26 @@
+{% extends('game/base_game.html.twig') %}
+
+{% block body %}
+
+    <h1 class="titre">Message(s)</h1>
+    <div class="table-responsive bg-demi-transparent">
+        <table class="width90 m-auto table table-hover">
+            <tr class="width90 m-auto flex-around">
+                <th class="">Message</th>
+                <th>Expediteur</th>
+                <th>Recu le</th>
+            </tr>
+            {% for message in messages %}
+
+                <tr class="width90 m-auto flex-around">
+                    <td> <a href="{{ path('message_show', {id_message:message.id} ) }}">{{ message.title }}</a></td>
+                    <td> {{ message.author.username }} </td>
+                    <td> {{ message.createdDate|date("d/m/Y \\à H:i:s", "Europe/Paris") }} </td>
+                </tr>
+
+            {% endfor %}
+        </table>
+    </div>
+
+
+{% endblock %}

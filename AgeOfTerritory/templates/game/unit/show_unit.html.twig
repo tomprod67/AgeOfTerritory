@@ -1,0 +1,42 @@
+{% extends 'game/base_game.html.twig' %}
+
+{% block body %}
+
+    <div class="tab-data bg-demi-transparent margtop6">
+        <article class="tab-pictureData">
+            <img class="tab-pictureDataList" src="{{ asset('picture/unit/')}}{{ unit.unit.picture }}"
+                 alt="{{ unit.unit.name }}" />
+        </article>
+        <article class="tab-textdata text-blue medium-size">
+            <h1 class="text-gras"> {{ unit.unit.name }} </h1>
+            <p>unité(s) disponible(s): <span class="text-gras">{{ unit.nombre}}</span></p>
+
+            <div>
+                <p>  {{ unit.unit.description }}</p>
+                <p>Cout en Bois: <span class="text-gras">{{ unit.woodCost|number_format(0, '', ' ' )   }}</span></p>
+                <p>Cout en Pierre: <span class="text-gras">{{ unit.stoneCost|number_format(0, '', ' ' )   }}</span></p>
+                {% if unit.metalCost != 0 %}
+                    <p>Cout en Métal: <span class="text-gras">{{ unit.metalCost|number_format(0, '', ' ' )   }}</span></p>
+                {% else %}
+                {% endif %}
+                <p> Dégat: <span class="text-gras">{{ unit.damage|number_format(0, '', ' ' )   }}</span></p>
+                <p> Bouclier: <span class="text-gras">{{ unit.health|number_format(0, '', ' ' )   }}</span></p>
+                <p> Vitesse: <span class="text-gras">{{ unit.speed }}</span></p>
+                <p> Capacité de transport: <span class="text-gras">{{ unit.freightCapacity|number_format(0, '', ' ' )   }}</span></p>
+                <p>
+                    {% if unit.trainingTime >= 86400 %}
+                        Temp de construction: <span class="text-gras">{{ unit.trainingTime|date("d\\j H\\h i\\m s\\s") }}</span>
+
+                    {% elseif unit.trainingTime >= 3600 %}
+                        Temp de construction: <span class="text-gras">{{ unit.trainingTime|date("H\\h i\\m s\\s") }}</span>
+
+                    {% elseif unit.trainingTime >= 60 %}
+                        Temp de construction: <span class="text-gras">{{ unit.trainingTime|date("i\\m s\\s") }}</span>
+
+                    {% else %}
+                        Temp de construction: <span class="text-gras">{{ unit.trainingTime|date("s\\s") }}</span>
+                    {% endif %}
+                </p>
+        </article>
+    </div>
+{% endblock %}

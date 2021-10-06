@@ -1,0 +1,163 @@
+.decoration-none{text-decoration: none;}
+.flex-around{display: flex; justify-content: space-around;}
+.margtop6{margin-top: 6em;}
+.width90{width: 90%;}
+.bg-wood{background-color: #B3793B;}
+.text-gras{font-weight: bolder;}
+.text-blue{color: #6B7D7D;}
+.text-demi-center{margin-left: 25%;}
+.padding-bottom{padding-bottom: 1em;}
+.medium-size{font-size: 1.1em;}
+.text-soulign{text-decoration: underline;}
+.text-vert{color: #5cb85c;}
+.text-rouge{color: #d9534f;}
+@font-face {
+    font-family: "Via Appia";
+    src: url("../police/Via_Appia.ttf");
+
+}
+.appia-font{
+    font-family: "Via Appia";
+}
+td.td-action {
+    vertical-align: middle;
+    text-align: center;
+}
+
+
+.flexalign{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.flexalign output{
+    margin-left: 0.5em;
+    font-weight: bold;
+    font-size: 1.1em;
+}
+.titre{
+    font-family: "Via Appia";
+    font-size: 3.5em;
+    text-shadow: 0 0 1px goldenrod;
+    font-weight: lighter;
+    color: #6B7D7D;
+    border-top: 1px;
+    border-left: 1px;
+    border-right: 1px;
+    padding-top: 0.2em;
+    text-align: center;
+    width: 60%;
+    margin: 0.5em auto 0 auto;
+    background-color: rgba(1, 1, 1, 0.8);
+    border-radius: 0.2em 0.2em 0 0;
+}
+.sous-titre{
+    font-family: "Via Appia";
+    font-size: 2em;
+    color: #6B7D7D;
+}
+.titre-level{
+    margin-left: 1em;
+    color: #6B7D7D;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.bg-demi-transparent{
+    background-color: rgba(1, 1, 1, 0.8);
+
+}
+
+*{
+    box-sizing: border-box;
+}
+
+html{
+    font-size: 14px;
+    height: 100%;
+}
+
+body{
+    width: 100%;
+    height: 100%;
+    background: url("../picture/fonddjo.jpg") no-repeat center center fixed;
+    background-size: cover;
+    padding: 3em;
+}
+
+#onglet-home{
+    width: 40%;
+    margin: auto;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+}
+#onglet-home h2{
+    width: 49.5%;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    margin-bottom: 0;
+    text-align: center;
+}
+.bg-noir{
+    background-color: rgba(2, 2, 2, 1);
+    border-bottom: 0.1em solid rgba(255, 255, 255, 0.7);
+}
+
+#onglet-home h2:hover{
+    background-color: rgba(2, 2, 2, 0.9);
+}
+
+
+
+#content-home{
+    width: 40%;
+    padding: 2em;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    margin-bottom: 3em;
+}
+#container-login{
+    display: flex;
+}
+.container-field{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.5em;
+}
+.champ-lien{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0.7em;
+}
+.container-field .champ-lien label{
+    margin-bottom: 0;
+}
+.lien{
+    font-size: 0.8em;
+    font-weight: bold;
+}
+.registration-field{
+    display: flex;
+    flex-direction: column;
+}
+#container-inscription label{
+    font-weight: bold;
+    font-size: 1.1em;
+}
+#container-inscription input{
+    margin-bottom: 1em;
+}
+#container-inscription input[type=submit]{
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+#baniere{
+    width: 100%;
+    background:url("../picture/logoGrand.png") no-repeat;
+    background-size: auto 100%;
+    background-position: center;
+    height: 10em;
+}

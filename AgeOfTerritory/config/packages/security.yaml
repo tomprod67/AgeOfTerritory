@@ -1,0 +1,41 @@
+security:
+    encoders:
+        App\Entity\User:
+            algorithm: auto
+    providers:
+        in_memory: { memory: ~ }
+        in_database:
+            entity:
+                class: App\Entity\User
+                property: email
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            anonymous: true
+            provider: in_database
+
+            form_login:
+                login_path: home
+                check_path: security_login
+                csrf_token_generator: security.csrf.token_manager
+                always_use_default_target_path: true
+                default_target_path: security_lastLoginTimestampForSetSession
+                failure_path_parameter: security_login
+            logout:
+                path: security_status
+                target: home
+
+
+            # https://symfony.com/doc/current/security/impersonating_user.html
+            # switch_user: true
+
+    # Easy way to control access for large sections of your site
+    # Note: Only the *first* access control that matches will be used
+
+
+    access_control:
+            # matches /admin/users/*
+            - { path: '^/admin', roles: ROLE_ADMIN }
+            - { path: '^/user', roles: ROLE_USER }

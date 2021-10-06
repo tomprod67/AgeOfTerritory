@@ -1,0 +1,29 @@
+{% extends 'game/base_game.html.twig' %}
+
+    {% block body %}
+
+        <h1 class="titre">VUE GÉNÉRALE</h1>
+
+        {% set isle = app.user.mainIsle %}
+        <div id="container-main-isle" class="bg-demi-transparent">
+            <h3 class="sous-titre">VOTRE ÎLE ET SES CARACTÉRISTIQUES</h3>
+            <figure>
+                <img id="image-main-isle" src="{{ asset('picture/isle/') }}{{ isle.picture }}"/>
+                <figcaption>
+                    <div id="text-main-isle">
+                        <p class="text-blue">Nom de L'île : <span class="text-gras medium-size">{{ isle.name }}</span></p>
+                        <p class="text-blue">Taille de l'ile : <span class="text-gras medium-size">{{ isle.size }}</span></p>
+                        <p class="text-blue">Coordonnées de l'ile : <span class="text-gras medium-size">{{ isle.longitude }}:{{ isle.latitude }}:{{ isle.position }}</span></p>
+                        <p class="text-blue">Point : <span class="text-gras medium-size">{{ isle.powerPoint }}</span></p>
+                    </div>
+                </figcaption>
+            </figure>
+        </div>
+
+
+    {% endblock %}
+
+    {% block javascripts %}
+        {{ parent() }}
+    {% endblock %}
+

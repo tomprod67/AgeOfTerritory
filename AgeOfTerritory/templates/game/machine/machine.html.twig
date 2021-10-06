@@ -1,0 +1,58 @@
+{% extends '/game/base_game.html.twig' %}
+
+{% block body %}
+    {% for message in app.flashes('error') %}
+        <p class="alert alert-danger alert-dismissible">{{ message }}</p>
+    {% endfor %}
+    <div id="machineInBuild">
+
+        <h1 class="titre">Machine(s) en construction</h1>
+        <div class="table-responsive bg-demi-transparent">
+            <table class="table">
+                <tr>
+                    <th>machine </th>
+                    <th>Nombre</th>
+                    <th>Temp restant</th>
+                    <th>Action</th>
+                </tr>
+                {% for machine in machines %}
+                    {% if machine.endDate is not null %}
+                        <tr>
+                            <td>{{ machine.machine.name }}</td>
+                            <td>{{ machine.nbTemp }}</td>
+                            <td><p id="time"></p></td>
+                            <td><p id="actionInTrain"></p></td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </table>
+        </div>
+
+
+    </div>
+
+    <h1 class="titre">machines</h1>
+    <div class="table-responsive bg-demi-transparent table-responsive{-sm|-md|-lg|-xl}">
+
+        <table class="table table-hover width90 m-auto">
+            <tr>
+                <th class="text-blue medium-size">Défense</th>
+                <th class="text-blue medium-size text-center">Action</th>
+            </tr>
+            {% for machine in machines %}
+                <tr>
+                    {% include('game/machine/onemachine.html.twig') %}
+                </tr>
+
+            {% endfor %}
+        </table>
+    </div>
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/countDown_machine.js') }}"> </script>
+{% endblock %}

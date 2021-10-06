@@ -1,0 +1,27 @@
+{% extends '/game/base_game.html.twig' %}
+
+{% block body %}
+
+    <h1 class="titre">Classement</h1>
+
+    <table class="table table-hover bg-demi-transparent">
+        <tr>
+            <th> Rang </th>
+            <th> Joueur </th>
+            <th> Points </th>
+        </tr>
+        {% set rang = 1 %}
+        {% for user in users %}
+            <tr>
+                <td>{{ rang }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.nbPoint }}</td>
+            </tr>
+            {% set rang = rang + 1 %}
+        {% endfor %}
+    </table>
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

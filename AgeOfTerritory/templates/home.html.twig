@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+
+        <link href="{{ asset('css/bootstrap.min.css') }}" type="text/css" rel="stylesheet">
+        <link href="{{ asset('css/home.css') }}" type="text/css" rel="stylesheet">
+
+
+
+        <title>Age Of Territory</title>
+
+
+    </head>
+    <body>
+        {% if not app.user %}
+            <div id="baniere"></div>
+
+            <div id="onglet-home">
+                <h2 class="bg-demi-transparent" id="inscription">S'inscrire</h2>
+                <h2 class="bg-demi-transparent" id="connexion">Se connecter</h2>
+            </div>
+            <div id="content-home" class="bg-demi-transparent">
+                <div>
+                    <div id="pageInscription">
+                        {{  include("security/registration.html.twig") }}
+                    </div>
+                </div>
+                <div>
+                    {% for message in app.flashes('success') %}
+                        <p class="alert alert-success">{{ message }}</p>
+                    {% endfor %}
+                    {% for message in app.flashes('success') %}
+                        <p class="alert alert-success">{{ message }}</p>
+                    {% endfor %}
+                    <div id="pageConnexion">
+                        <div id="container-login">
+                            <form action="{{ path('security_login') }}" method="post">
+
+                                <div class="container-field">
+                                    <div class="champ-lien">
+                                        <label for="_username" class="medium-size text-gras">Adresse e-mail</label>
+                                        <a class="lien" href="{{ path('forgotten_mail') }}">(Adresse e-mail oublié ?)</a>
+                                    </div>
+                                    <input type="email" placeholder="Adresse email" required name="_username">
+
+                                </div>
+
+                                <div class="container-field">
+                                    <div class="champ-lien">
+                                        <label for="password" class="medium-size text-gras">Mot de passe</label>
+                                        <a class="lien" href="{{ path('forgotten_password') }}">(Mot de passe oublié ?)</a>
+                                    </div>
+                                    <input type="password" placeholder="Mot de passe" required name="_password">
+
+
+                                </div>
+
+                                <!-- Protection faille CSRF -->
+                                <input type="hidden" name="_csrf_token"
+                                       value="{{ csrf_token('authenticate') }}">
+
+                                <input type="hidden" name="game_general_view" value="{{ path('game_general_view') }}"/>
+
+                                <input type="hidden" name="security_login" value="{{ path('security_login') }}"/>
+
+
+                                <div>
+                                    <button type="submit"> Connexion </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        {% endif %}
+        <script src="{{ asset('js/jquery-3.4.1.min.js') }}"></script>
+        <script>
+            $(document).ready(function() {
+                    $("#pageInscription").hide();
+                    $("#inscription").addClass("bg-noir");
+                    $("#connexion").removeClass("bg-noir").addClass("bg-demi-transparent");
+
+                    $("#inscription").click(function () {
+                        $("#pageInscription").show();
+                        $("#pageConnexion").hide();
+                        $("#connexion").addClass("bg-noir");
+                        $("#inscription").removeClass("bg-noir").addClass("bg-demi-transparent");
+
+                    });
+                    $("#connexion").click(function () {
+                        $("#pageConnexion").show();
+                        $("#pageInscription").hide();
+                        $("#inscription").addClass("bg-noir");
+                        $("#connexion").removeClass("bg-noir").addClass("bg-demi-transparent");
+                    });
+            });
+        </script>
+
+    </body>
+
+
+</html>

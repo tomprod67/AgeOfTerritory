@@ -1,0 +1,95 @@
+
+<td class="tab-data">
+    <div class="tab-pictureData">
+        <img class="tab-pictureDataList"
+             src="{{ asset('picture/technology/') }}{{ technology.technology.picture }}"
+             alt="{{ technology.technology.name }}" />
+    </div>
+    <div>
+        <div class="flexalign">
+            <h3>
+                <a class="jslink sous-titre"
+                   href="{{ path('game_technology_show',{'id':technology.id} ) }}">
+                    {{ technology.technology.name }}
+                </a>
+            </h3>
+            {% if technology.levelTechnology > 0 %}
+                <span class="titre-level">lvl {{ technology.levelTechnology }}</span>
+            {% else %}
+            {% endif %}
+        </div>
+
+        <div class="text-blue medium-size">
+            <p>{{ technology.technology.description }}</p>
+            <p class="flexalign">
+                <img class="ressource-img" src="{{ asset('picture/ressource/wood.png') }}"/>
+                {% if technology.woodCost < app.user.mainIsle.woodStock %}
+                    <output class="text-vert text-gras">{{ technology.woodCost|number_format(0, '', ' ' )   }}</output>
+                {% else %}
+                    <output class="text-rouge text-gras">{{ technology.woodCost|number_format(0, '', ' ' )   }}</output>
+                {% endif %}
+            </p>
+
+            <p class="flexalign">
+                <img class="ressource-img" src="{{ asset('picture/ressource/stone.png') }}"/>
+                {% if technology.stoneCost < app.user.mainIsle.stoneStock %}
+                    <output class="text-vert text-gras">{{ technology.stoneCost|number_format(0, '', ' ' )   }}</output>
+                {% else %}
+                    <output class="text-rouge text-gras">{{ technology.stoneCost|number_format(0, '', ' ' )   }}</output>
+                {% endif %}
+            </p>
+
+            {% if technology.metalCost != 0 %}
+                <p class="flexalign">
+                    <img src="{{ asset('picture/ressource/metal.png') }}"/>
+                    {% if technology.metalCost < app.user.mainIsle.metalStock %}
+                        <output class="text-vert text-gras">{{ technology.metalCost|number_format(0, '', ' ' )   }}</output>
+                    {% else %}
+                        <output class="text-rouge text-gras">{{ technology.metalCost|number_format(0, '', ' ' )   }}</output>
+                    {% endif %}
+                </p>
+            {% endif %}
+            {% if technology.searchTime >= 86400 %}
+                <p>Temp de recherche: <span class="text-gras">{{ technology.searchTime|date("d\\j H\\h i\\m s\\s") }}</span></p>
+
+            {% elseif technology.searchTime >= 3600 %}
+                <p>Temp de recherche: <span class="text-gras">{{ technology.searchTime|date("H\\h i\\m s\\s") }}</span></p>
+
+            {% elseif technology.searchTime >= 60 %}
+                <p>Temp de recherche: <span class="text-gras">{{ technology.searchTime|date("i\\m s\\s") }}</span></p>
+
+            {% else %}
+                <p>Temp de recherche: <span class="text-gras">{{ technology.searchTime|date("s\\s") }}</span></p>
+            {% endif %}
+            <br/>
+            {%  if technology.endDate is null %}
+                <a class="jslink text-gras text-soulign medium-size" href="{{ path('game_technology_destroy',{'id_technology':technology.id} ) }}"
+                   onclick="return confirm('Etes-vous sur de vouloir détruire un niveau de ce batiment ? Vous recupèrerez une partie des ressources.');">
+                    Détruire ?
+                </a>
+            {% endif %}
+        </div>
+    </div>
+</td>
+
+<td class="td-action">
+    <div>
+        {%  if technology.endDate is not null %}
+            <p class="text-blue text-gras medium-size" id="countDownTechnology"
+               data-count-down-date-technology="{{ technology.endDate }}"
+               data-redirect-completed="{{ path('game_technology_upgrade_end', {id_technology : technology.id}) }}"
+               data-redirect-cancelled="{{ path('game_technology_cancel', {id_technology : technology.id}) }}">
+            </p>
+        {% endif %}
+        {% if technology.levelTechnology == 0 %}
+            <a class="jslink text-gras text-soulign medium-size actionTech"
+               href="{{ path('game_technology_upgrade_start',{'id_technology':technology.id}  ) }}">
+                Constuire
+            </a>
+        {% else %}
+            <a class="jslink text-gras text-soulign medium-size actionTech" href="{{ path('game_technology_upgrade_start',{'id_technology':technology.id}  ) }}">
+                Améliorer
+            </a>
+        {% endif %}
+    </div>
+</td>

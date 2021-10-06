@@ -1,0 +1,28 @@
+{% extends '/game/base_game.html.twig' %}
+
+{% block body %}
+
+    <h1 class="titre">TECHNOLOGIES</h1>
+    {% for message in app.flashes('error') %}
+        <p class="alert alert-danger alert-dismissible">{{ message }}</p>
+    {% endfor %}
+    <div class="table-responsive bg-demi-transparent table-responsive{-sm|-md|-lg|-xl}">
+        <table class="table table-hover width90 m-auto">
+            <tr>
+                <th class="text-blue medium-size">Batiment</th>
+                <th class="text-blue medium-size text-center">Action</th>
+            </tr>
+            {% for technology in technologies %}
+                <tr id="technology{{ technology.id }}">
+                    {{  include("game/technology/oneTechnology.html.twig") }}
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/countDown_technology.js') }}"> </script>
+{% endblock %}

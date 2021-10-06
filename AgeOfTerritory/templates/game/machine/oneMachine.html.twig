@@ -1,0 +1,103 @@
+<td class="tab-data">
+    <div class="tab-pictureData">
+        <img class="tab-pictureDataList"
+             src="{{ asset('picture/machine/')}}{{ machine.machine.picture }}"
+             alt="{{ machine.machine.name }}" />
+    </div>
+    <div>
+        <div class="flexalign">
+            <h3>
+                <a class="jslink sous-titre"
+                   href="{{ path('game_building_show',{'id':machine.id} ) }}">
+                    {{ machine.machine.name }}
+                </a>
+            </h3>
+            {% if machine.nombre > 0 %}
+                <span class="titre-level">{{ machine.nombre }} machineé(s) disponible(s)</span>
+            {% else %}
+            {% endif %}
+        </div>
+        <div class="tab-container-description text-blue medium-size">
+            <div class="tab-description">
+                <p>{{ machine.machine.description }}</p>
+            </div>
+            <div class="tab-stats">
+                <p class="flexalign">
+                    <img class="ressource-img" src="{{ asset('picture/bouclier.png') }}"/>
+                    <output class="text-gras">{{ machine.health|number_format(0, '', ' ' )   }}</output>
+                </p>
+                <p class="flexalign">
+                    <img class="ressource-img" src="{{ asset('picture/epee.png') }}"/>
+                    <output class="text-gras">{{ machine.damage|number_format(0, '', ' ' )   }}</output>
+                </p>
+            </div>
+            <div class="tab-price">
+
+                <p class="flexalign">
+                    <img class="ressource-img" src="{{ asset('picture/ressource/wood.png') }}"/>
+                    {% if machine.woodCost < app.user.mainIsle.woodStock %}
+                        <output class="text-vert text-gras">{{ machine.woodCost|number_format(0, '', ' ' )   }}</output>
+                    {% else %}
+                        <output class="text-rouge text-gras">{{ machine.woodCost|number_format(0, '', ' ' )   }}</output>
+                    {% endif %}
+                </p>
+
+                <p class="flexalign">
+                    <img class="ressource-img" src="{{ asset('picture/ressource/stone.png') }}"/>
+                    {% if machine.stoneCost < app.user.mainIsle.stoneStock %}
+                        <output class="text-vert text-gras">{{ machine.stoneCost|number_format(0, '', ' ' )   }}</output>
+                    {% else %}
+                        <output class="text-rouge text-gras">{{ machine.stoneCost|number_format(0, '', ' ' )   }}</output>
+                    {% endif %}
+                </p>
+
+                {% if machine.metalCost != 0 %}
+                    <p class="flexalign">
+                        <img src="{{ asset('picture/ressource/metal.png') }}"/>
+                        {% if machine.metalCost < app.user.mainIsle.metalStock %}
+                            <output class="text-vert text-gras">{{ machine.metalCost|number_format(0, '', ' ' )   }}</output>
+                        {% else %}
+                            <output class="text-rouge text-gras">{{ machine.metalCost|number_format(0, '', ' ' )   }}</output>
+                        {% endif %}
+                    </p>
+                {% endif %}
+            </div>
+            <div class="tab-time">
+                <p>
+                    {% if machine.trainingTime >= 86400 %}
+                        Temp de construction : {{ machine.trainingTime|date("d\\j H\\h i\\m s\\s")  }}
+
+                    {% elseif machine.trainingTime >= 3600 %}
+                        Temp de construction : {{ machine.trainingTime|date("H\\h i\\m s\\s") }}
+
+                    {% elseif machine.trainingTime >= 60 %}
+                        Temp de construction : {{ machine.trainingTime|date("i\\m s\\s") }}
+
+                    {% else %}
+                        Temp de construction : {{ machine.trainingTime|date("s\\s") }}
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+
+    </div>
+</td>
+
+<td class="td-action">
+    {%  if machine.endDate is not null %}
+        <p id="countDownMachine"
+           data-count-down-date-machine="{{ machine.endDate }}"
+           data-redirect-completed="{{ path('game_machine_training_end', {id_machine : machine.id}) }}"
+           data-redirect-cancelled="{{ path('game_machine_cancel', {id_machine : machine.id}) }}"
+           data-name-machine="{{ machine.machine.name }}"
+           data-nb-temp="{{ machine.nbTemp }}">
+        </p>
+    {% endif %}
+    <form action="{{ path('game_machine_training_start', {id_machine:machine.id} ) }}" method="POST">
+
+        <label class="text-blue text-gras medium-size" for="number">Nombre</label><br/>
+        <input type="number" min="1" name="number"><br/><br/>
+        <input class="text-blue medium-size text-gras" type="submit" value="Construire">
+
+    </form>
+</td>

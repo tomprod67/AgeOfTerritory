@@ -1,0 +1,148 @@
+{% extends '/game/base_game.html.twig' %}
+
+{% block body %}
+
+    {% for message in app.flashes('test') %}
+    {{ message }}
+    {% endfor %}
+
+    {% for message in app.flashes('errorCheckArmy') %}
+        <p class="alert alert-danger alert-dismissible">{{ message }}</p>
+    {% endfor %}
+    <p id="error-form"></p>
+
+
+    {% if app.session.get('endDateMission') is defined %}
+        <p id="countDownMission"
+           data-end-date-mission="{{ app.session.get('endDateMission') }}">
+           {% if app.session.get('timeMission') is not defined %}
+                <span id="timeMission"></span>
+           {% else %}
+                <span id="timeMissionSession">{{ app.session.get('timeMission') }}</span>
+           {% endif %}
+{#
+               data-redirect-completed="{{ path('game_updateBuildAfterTimer', {id_building : building.id}) }}">
+#}
+{#
+               data-redirect-cancelled="{{ path('game_cancelledBuild', {id_building : building.id}) }}">
+#}
+        </p>
+
+    {% endif %}
+
+    <h1 class="titre">Votre armée</h1>
+
+    {% if units is not empty and machines is not empty %}
+        <form class="bg-demi-transparent" action="{{ path('game_army_check') }}" method="post">
+
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <tr>
+                        <th class="medium-size text-gras text-blue">Troupe</th>
+                        <th class="medium-size text-gras text-blue"> Nombre disponible</th>
+                        <th class="medium-size text-gras text-blue"> Nombre à envoyer</th>
+                    </tr>
+
+                    {% for unit in units %}
+                       {% if unit.nombre != 0 %}
+                        <tr class="text-blue text-gras medium-size">
+                            <td> {{ unit.unit.name }} </td>
+                            <td>{{ unit.nombre}} </td>
+                            <td>
+                                <input type="number" min="1" max="{{ unit.nombre }}" name="units[{{ unit.id}}]" id="units"/>
+                                <span class="text-gras">(max{{ unit.nombre }})</span>
+                            </td>
+                        </tr>
+                        {% endif %}
+                    {% endfor %}
+
+
+                    {% for machine in machines %}
+                        {% if machine.nombre != 0 %}
+                            <tr class="text-blue text-gras medium-size">
+                                <td> {{ machine.machine.name }} </td>
+                                <td>{{ machine.nombre }} </td>
+                                <td>
+                                    <input type="number" min="1" max="{{ machine.nombre }}"name="machines[{{ machine.machine.id }}]" id="machines"/>
+                                    <span class="text-gras">(max: {{ machine.nombre }})</span></td>
+                            </tr>
+                        {% endif %}
+
+                    {% endfor %}
+
+                </table>
+            </div>
+            <input id="submit" class="text-blue text-gras" type="submit" value="Envoyer en mission">
+        </form>
+    {% else %}
+
+    {% endif %}
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function(){
+            $('#submit').click(function () {
+
+                // Get the Login Name value and trim it
+                var field = $.trim($('#units').val());
+                var field1 = $.trim($('#machines').val());
+
+                // Check if empty of not
+                if (field  === '' && field1 === '') {
+                    $("#error-form").addClass("alert alert-danger alert-dismissible");
+
+                    $('#error-form').html('Vous devez selectionner au moin 1 unité ou machine pour continuer.');
+                    return false;
+                }
+            });
+
+            function secondsTimeSpanToHMS(s) {
+                var h = Math.floor(s / 3600);
+                s -= h * 3600;
+                var m = Math.floor(s / 60);
+                s -= m * 60;
+                return h + ":" + (m < 10 ? '0' + m : m) + ":" + (s < 10 ? '0' + s : s);
+            }
+
+            if ($("#timeMissionSession").text().length !== 0) {
+                var restTime = $("#timeMissionSession").text();
+                var x = setInterval(function () {
+
+                    restTime = Number(restTime) - 1;
+
+                    if (restTime < 0) {
+                        clearInterval(x);
+                        $.get(
+                            '{{ path("game_updateTimeMission") }}',
+                            {"time": restTime},
+                            function (data) {
+                                console.log(data);
+                            }
+                        );
+                    }
+                    else {
+                        var result = secondsTimeSpanToHMS(restTime);
+                        $("#timeMissionSession").html(result);
+                    }
+                }, 1000);
+            }
+            else {
+                var endDate = $("#countDownMission").data('endDateMission');
+                console.log(endDate);
+                $.get(
+                    '{{ path('game_updateTimeMission') }}',
+                    {
+                        "endDate": endDate
+                    },
+                    function (){
+                        window.location.href = '{{ path("game_army") }}';
+                    }
+                );
+
+            }
+    });
+    </script>
+
+{% endblock %}

@@ -1,0 +1,49 @@
+easy_admin:
+    site_name: '<strong>Age Of Territory</strong>'
+    entities:
+        # List the entity class name you want to manage
+        Building:
+            class: App\Entity\Building
+
+        BuildBuilding:
+            class: App\Entity\BuildBuilding
+
+        Technology:
+            class: App\Entity\Technology
+
+        SearchTechnology:
+            class: App\Entity\SearchTechnology
+
+        Defense:
+            class: App\Entity\Defense
+
+        BuildDefense:
+            class: App\Entity\BuildDefense
+
+        Machine:
+            class: App\Entity\Machine
+
+        TrainingMachine:
+            class: App\Entity\TrainingMachine
+
+        Unit:
+            class: App\Entity\Unit
+
+        TrainingUnit:
+            class: App\Entity\TrainingUnit
+
+        Message:
+            class: App\Entity\Message
+
+        Mission:
+            class: App\Entity\Mission
+
+        Evolution:
+            class: App\Entity\Evolution
+
+        Isle:
+            class: App\Entity\Isle
+
+        User:
+            class: App\Entity\User
+

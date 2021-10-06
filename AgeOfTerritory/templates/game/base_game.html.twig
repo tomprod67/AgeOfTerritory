@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+
+    <title>{% block title %}Age Of Territory{% endblock %}</title>
+    {% block stylesheets %}
+
+        <link href="{{ asset('css/bootstrap.min.css') }}" type="text/css" rel="stylesheet">
+        <link href="{{ asset('css/game.css') }}" type="text/css" rel="stylesheet">
+        <link href="{{ asset('police/Via_Appia.ttf') }}" type="font/ttf" rel="stylesheet">
+
+    {% endblock %}
+
+</head>
+<body>
+    <div id="global-wrapper">
+        <header>
+            <div id="baniere"></div>
+
+            <div class="bg-demi-transparent" id="deco-player">
+                <p class="text-blue text-center">Bonjour <span class="text-gras medium-size">{{ app.user.username }}</span>.(<a class="text-gras medium-size text-soulign jslink" href="{{ path('security_status') }}">Déconnexion</a>)</p>
+            </div>
+            <nav class="jslink" id="navbar">
+                <div id="link-container" class="text-center">
+                    <a class="nav-link jslink text-gras" href="{{ path('game_general_view') }}">Accueil</a>
+                    <a class="nav-link jslink text-gras" href="{{ path('game_building') }}">Batiments</a>
+                    <a class="nav-link jslink text-gras" href="{{ path('game_unit') }}">Unités</a>
+                    <a class="nav-link jslink text-gras" href="{{ path('game_machine') }}">Machines</a>
+                    <a class="nav-link jslink text-gras" href="{{ path('game_map') }}">Océan</a>
+                    <a class="nav-link jslink text-gras" href="{{ path('game_army') }}">Armée</a>
+                    <a class="nav-link jslink text-gras" href="{{ path('game_technology') }}">Technologies</a>
+                    <a class="nav-link jslink text-gras" href="{{ path('game_defense') }}">Defenses</a>
+                    <a class="nav-link jslink text-gras" href="{{ path('game_ranking') }}">Classement</a>
+                    <a class="nav-link jslink text-gras" href="{{ path('game_help') }}">Aide </a>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a class="nav-link jslink text-gras" href="/admin">Administration</a>
+                    {% endif %}
+                </div>
+            </nav>
+        </header>
+
+        <div id="contenu">
+            <main>
+                {% block body %}
+
+                {% endblock %}
+            </main>
+            <div id="ressource-font-awesome-container">
+                <div id="container-font-awesome">
+                    <a class="container-message-awesome text-center decoration-none" href="{{ path('game_message') }}"><i class="font-awesome fas fa-envelope"></i>
+                        {% if app.user.nbUnreadMessage is null or app.user.nbUnreadMessage == 0 %}
+                        {% else %}
+                            <span class="text-decoration-none text-rouge big-size text-gras" id="nbMessage">{{ app.user.nbUnreadMessage }}</span>
+                        {% endif %}
+                    </a>
+                    <a href="{{ path('game_account') }}" class="text-center">
+                        <i id="font-awesome-profil-setting" class="text-center font-awesome fas fa-user-cog"></i>
+                    </a>
+                </div>
+
+                <div id="pannelRessource" class="bg-demi-transparent">
+
+                    <p class="text-center text-blue text-gras" id="woodStock"
+                       data-prod="{{ app.user.mainIsle.woodProd }}">
+                        <img class="ressource-img" src="{{ asset('picture/ressource/wood.png') }}"/><br/>
+                        <output id="wood"> {{ app.session.get('wood') ? app.session.get('wood') : app.user.mainIsle.woodProd }}</output>
+                    </p>
+
+                    <p class="text-center text-blue text-gras" id="stoneStock"
+                       data-prod="{{ app.user.mainIsle.stoneProd }}">
+                        <img class="ressource-img" src="{{ asset('picture/ressource/stone.png') }}"/><br/>
+                        <output id="stone">{{ app.session.get('stone') ? app.session.get('stone') : app.user.mainIsle.stoneProd }}</output>
+                    </p>
+
+                    <p class="text-center text-blue text-gras" id="metalStock"
+                       data-prod="{{ app.user.mainIsle.metalProd }}">
+                        <img class="ressource-img" src="{{ asset('picture/ressource/metal.png') }}"/><br/>
+                        <output id="metal">{{ app.session.get('metal') ? app.session.get('metal') : app.user.mainIsle.metalProd }}</output>
+                    </p>
+
+                    <p class="text-center text-blue text-gras" id="oilStock"
+                       data-prod="{{ app.user.mainIsle.oilProd }}">
+                        <img class="ressource-img" src="{{ asset('picture/ressource/oil.png') }}"/><br/>
+                        <output id="oil">{{ app.session.get('oil') ? app.session.get('oil') : app.user.mainIsle.oilProd }}</output>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <footer class="text-center">
+            &copy;Tomprod 2019. Tous droit réservés. AGE OF TERRITORY.
+        </footer>
+    </div>
+    <div id="overlay" style="
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0,0,0,0.5);
+            color: #fff;
+            text-align: center;
+            font-size: 2em;
+            font-weight: bold;
+            display: none;">
+        LOADING ...
+    </div>
+
+    {% block javascripts %}
+        <script src="https://kit.fontawesome.com/f4ba028d52.js" crossorigin="anonymous"></script>
+        <script src="{{ asset('js/jquery-3.4.1.min.js') }}"></script>
+        <script>
+            function lisibilite_nombre(nbr) {
+                var nombre = ''+nbr;
+                var retour = '';
+                var count=0;
+                for(var i=nombre.length-1 ; i>=0 ; i--) {
+                    if(count!=0 && count % 3 == 0)
+                        retour = nombre[i]+' '+retour ;
+                    else retour = nombre[i]+retour ;
+                    count++;
+                }
+                return retour
+            }
+            $(document).ready(function(){
+                var iWindowsSize = $(window).width();
+                if (iWindowsSize > 500){
+                    var s = $("#ressource-font-awesome-container");
+                    var nav = $("#navbar");
+                    var pos = s.position();
+                    $(window).scroll(function() {
+                        var windowpos = $(window).scrollTop();
+                        if (windowpos >= pos.top){
+                            s.addClass("sticky-ressource");
+                            nav.addClass("sticky-nav");
+                        } else {
+                            s.removeClass("sticky-ressource");
+                            nav.removeClass("sticky-nav");
+                        }
+                    });
+                }
+
+                var wood = $("#wood").text().replace(/\s/g,'');
+                var stone = $("#stone").text().replace(/\s/g,'');;
+                var metal = $("#metal").text().replace(/\s/g,'');;
+                var oil = $("#oil").text();
+
+                var $woodStock = $('#woodStock');
+                var woodProd = $woodStock.data('prod');
+
+                var $stoneStock = $('#stoneStock');
+                var stoneProd = $stoneStock.data('prod');
+
+                var $metalStock = $('#metalStock');
+                var metalProd = $metalStock.data('prod');
+
+                var $oilStock = $('#oilStock');
+                var oilProd = $oilStock.data('prod');
+
+                var x = setInterval(function(){
+
+                    wood = Math.ceil(Number(wood) + (Number(woodProd) / 60) / 60);
+                    stone = Math.ceil(Number(stone) + (Number(stoneProd) / 60 / 60));
+                    metal = Math.ceil(Number(metal) + (Number(metalProd) / 60 / 60));
+                    oil = Math.ceil(Number(oil) + (Number(oilProd) / 60 / 60));
+
+                    $("#wood").text(lisibilite_nombre(wood));
+                    $("#stone").text(lisibilite_nombre(stone));
+                    $("#metal").text(lisibilite_nombre(metal));
+                    $("#oil").text(lisibilite_nombre(oil));
+
+                }, 1000);
+
+
+                $(".jslink").click(function(e) {
+                    e.stopPropagation();
+                    e.preventDefault();
+
+                    $("#overlay").fadeIn(200);
+                    let updateUrl = '{{ path('game_update_ressource') }}';
+                    let urltogo = $(this).attr("href");
+                    clearInterval(x);
+                    $.get(
+                        updateUrl,
+                        {
+                            "newwood": $("#wood").text(),
+                            "newstone": $("#stone").text(),
+                            "newmetal": $("#metal").text(),
+                            "newoil": $("#oil").text()
+                        },
+                        function(data){
+                            console.log(data);
+                            window.location.href = urltogo
+                        }
+                    );
+                });
+
+            });
+        </script>
+    {% endblock %}
+
+</body>
+</html>
